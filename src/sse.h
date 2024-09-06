@@ -4,7 +4,7 @@
 typedef unsigned long long U64;
 
 #define NAME "SSEHC 1.0"
-#define BRD_SQ_NUM 120
+#define BOARD_SIZE 120
 
 enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK};
 enum {FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE};
@@ -24,6 +24,31 @@ enum {
 };
 
 enum {FALSE, TRUE};
+
+typedef struct {
+
+    int pieces[BOARD_SIZE];
+    U64 pawns[3];
+
+    int KingSq[2];
+
+    int side;
+    int enPass;
+
+    int fiftyMove;
+
+    int ply;
+    int hisPly;
+
+    U64 posKey;
+
+    int pieceNum[13];
+    int bigPiece[3];
+    int majorPiece[3];
+    int minorPiece[3];
+
+
+} BOARD;
 
 
 #endif
