@@ -109,6 +109,12 @@ typedef struct {
 #define CLRBIT(bb, sq) ((bb) &= ClearMask[(sq)])
 #define SETBIT(bb, sq) ((bb) |= SetMask[(sq)])
 
+#define IsBQ(p) (PieceBishopQueen[(p)])
+#define IsRQ(p) (PieceRookQueen[(p)])
+#define IsN(p) (PieceKnight[(p)])
+#define IsK(p) (PieceKing[(p)])
+
+
 // Globals
 extern int Sq120ToSq64[BOARD_SIZE];
 extern int Sq64ToSq120[64];
@@ -131,6 +137,11 @@ extern int PieceColor[13];
 extern int File[BOARD_SIZE];
 extern int Rank[BOARD_SIZE];
 
+extern int PieceKnight[13];
+extern int PieceKing[13];
+extern int PieceRookQueen[13];
+extern int PieceBishopQueen[13];
+
 
 // Functions
 
@@ -152,6 +163,9 @@ extern int ParseFEN(char *fen, BOARD *pos);
 extern void PrintBoard(const BOARD *pos);
 extern void UpdateListsMaterial(BOARD *pos);
 extern int CheckBoard(const BOARD *pos);
+
+// attack.c
+extern int SquareAttacked(const int sq, const int side, const BOARD *pos);
 
 
 #endif
