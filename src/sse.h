@@ -1,9 +1,10 @@
 #ifndef SSE_H
 #define SSE_H
 
+#include <stdio.h>
 #include <stdlib.h>
 
-// #define DEBUG
+#define DEBUG
 
 #ifndef DEBUG
 #define ASSERT(n)
@@ -115,6 +116,11 @@ extern U64 ClearMask[64];
 extern U64 PieceKeys[13][120];
 extern U64 SideKey;
 extern U64 CastleKeys[16];
+extern char PieceChar[];
+extern char SideChar[];
+extern char RankChar[];
+extern char FileChar[];
+
 
 
 // Functions
@@ -133,6 +139,8 @@ extern U64 GeneratePosKey(const BOARD *pos);
 
 // board.c
 extern void ResetBoard(BOARD *pos);
+extern int ParseFEN(char *fen, BOARD *pos);
+extern void PrintBoard(const BOARD *pos);
 
 
 #endif

@@ -43,8 +43,8 @@ int ParseFEN(char *fen, BOARD *pos) {
         }
 
         for(index = 0; index < count; ++index) {
-            sq64 = FR2SQ(file, rank);
-            sq120 = SQ120(sq64);
+            sq120 = FR2SQ(file, rank);
+            sq64 = SQ64(sq120);
             if(piece != EMPTY) {
                 pos->pieces[sq120] = piece;
             }
@@ -129,5 +129,39 @@ void ResetBoard(BOARD *pos) {
     pos->castlePerm = 0;
 
     pos->posKey = 0ULL;
+
+}
+
+void PrintBoard(const BOARD *pos) {
+
+    int sq, file, rank, piece;
+
+    printf("\nGame Board:\n\n");
+
+    for(rank = RANK_8; rank >= RANK_1; rank--) {
+        printf("%d  ", rank + 1);
+        for(file = FILE_A; file <= FILE_H; file++) {
+            sq = FR2SQ(file, rank);
+            piece = pos->pieces[sq];
+            printf("%3c", PieceChar[piece]);
+        }
+        printf("\n");
+    }
+
+    printf("\n   ");
+    for(file = FILE_A; file <= FILE_H; file++) {
+        printf("%3c", FileChar[file]);
+    }
+    printf("\n");
+
+    printf("side:%c\n", SideChar[pos->side]);
+    printf("enPas:%d\n", pos->enPass);
+    printf("castle:%c%c%c%c\n",
+            pos->castlePerm & WKCA ? 'K' : '-',
+            pos->castlePerm & WQCA ? 'Q' : '-',
+            pos->castlePerm & BKCA ? 'k' : '-',
+            pos->castlePerm & BQCA ? 'q' : '-'
+          );
+    printf("PosKey:%llX\n", pos->posKey);
 
 }
