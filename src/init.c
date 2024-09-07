@@ -18,6 +18,29 @@ U64 PieceKeys[13][120];
 U64 SideKey;
 U64 CastleKeys[16];
 
+int File[BOARD_SIZE];
+int Rank[BOARD_SIZE];
+
+void InitFileRank() {
+    int index = 0;
+    int file = FILE_A;
+    int rank = RANK_1;
+    int sq = A1;
+
+    for(index = 0; index < BOARD_SIZE; ++index) {
+        File[index] = OFFBOARD;
+        Rank[index] = OFFBOARD;
+    }
+
+    for(rank = RANK_1; rank <= RANK_8; ++rank) {
+        for(file = FILE_A; file <= FILE_H; ++file) {
+            sq = FR2SQ(file, rank);
+            File[sq] = file;
+            Rank[sq] = rank;
+        }
+    }
+} 
+
 
 void InitHashKeys() {
     int index = 0;
@@ -82,4 +105,5 @@ void Init() {
     InitSq120To64();
     InitBitMasks();
     InitHashKeys();
+    InitFileRank();
 }

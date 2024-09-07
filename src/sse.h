@@ -33,7 +33,7 @@ typedef unsigned long long U64;
 
 
 
-enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK, OFFBOARD}; 
+enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK }; 
 enum {FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE};
 enum {RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE};
 
@@ -47,7 +47,7 @@ enum {
     A5 = 61, B5, C5, D5, E5, F5, G5, H5,
     A6 = 71, B6, C6, D6, E6, F6, G6, H6,
     A7 = 81, B7, C7, D7, E7, F7, G7, H7,
-    A8 = 91, B8, C8, D8, E8, F8, G8, H8, NO_SQ
+    A8 = 91, B8, C8, D8, E8, F8, G8, H8, NO_SQ, OFFBOARD
 };
 
 enum {FALSE, TRUE};
@@ -86,9 +86,10 @@ typedef struct {
     U64 posKey;
 
     int pieceNum[13];
-    int bigPiece[3];
-    int majorPiece[3];
-    int minorPiece[3];
+    int bigPiece[2];
+    int majorPiece[2];
+    int minorPiece[2];
+    int material[2]; 
 
 
     MOVE history[MAX_GAME_MOVES];
@@ -121,6 +122,14 @@ extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
 
+extern int PieceBig[13];
+extern int PieceMajor[13];
+extern int PieceMinor[13];
+extern int PieceValue[13];
+extern int PieceColor[13];
+
+extern int File[BOARD_SIZE];
+extern int Rank[BOARD_SIZE];
 
 
 // Functions
@@ -141,6 +150,8 @@ extern U64 GeneratePosKey(const BOARD *pos);
 extern void ResetBoard(BOARD *pos);
 extern int ParseFEN(char *fen, BOARD *pos);
 extern void PrintBoard(const BOARD *pos);
+extern void UpdateListsMaterial(BOARD *pos);
+extern int CheckBoard(const BOARD *pos);
 
 
 #endif
