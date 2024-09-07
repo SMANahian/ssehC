@@ -1,12 +1,38 @@
 #ifndef SSE_H
 #define SSE_H
 
+#include <stdlib.h>
+
+// #define DEBUG
+
+#ifndef DEBUG
+#define ASSERT(n)
+#else
+#define ASSERT(n) \
+if(!(n)) { \
+printf("%s - Failed", #n); \
+printf("On %s ", __DATE__); \
+printf("At %s ", __TIME__); \
+printf("In File %s ", __FILE__); \
+printf("At Line %d\n", __LINE__); \
+exit(1); }
+#endif
+
+
+
+
 typedef unsigned long long U64;
 
 #define NAME "SSEHC 1.0"
 #define BOARD_SIZE 120
 
-enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK};
+#define MAX_GAME_MOVES 2048
+
+#define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
+
+
+enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK, OFFBOARD}; 
 enum {FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE};
 enum {RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE};
 
@@ -25,6 +51,20 @@ enum {
 
 enum {FALSE, TRUE};
 
+enum {WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8};
+
+typedef struct {
+
+    int move;
+    int castlePerm;
+    int enPass;
+    int fiftyMove;
+    U64 posKey;
+
+} MOVE;
+
+
+
 typedef struct {
 
     int pieces[BOARD_SIZE];
@@ -40,6 +80,8 @@ typedef struct {
     int ply;
     int hisPly;
 
+    int castlePerm;
+
     U64 posKey;
 
     int pieceNum[13];
@@ -48,7 +90,49 @@ typedef struct {
     int minorPiece[3];
 
 
+    MOVE history[MAX_GAME_MOVES];
+
+    int pieceList[13][10];
+
+
 } BOARD;
+
+
+// MACROS
+#define FR2SQ(f, r) ( (21 + (f) ) + ( (r) * 10 ) )
+#define SQ64(sq120) (Sq120ToSq64[sq120])
+#define SQ120(sq64) (Sq64ToSq120[sq64])
+#define POP(b) PopBit(b)
+#define CNT(b) CountBits(b)
+#define CLRBIT(bb, sq) ((bb) &= ClearMask[(sq)])
+#define SETBIT(bb, sq) ((bb) |= SetMask[(sq)])
+
+// Globals
+extern int Sq120ToSq64[BOARD_SIZE];
+extern int Sq64ToSq120[64];
+extern U64 SetMask[64];
+extern U64 ClearMask[64];
+extern U64 PieceKeys[13][120];
+extern U64 SideKey;
+extern U64 CastleKeys[16];
+
+
+// Functions
+
+// init.c
+extern void Init();
+
+// bitboard.c
+extern void PrintBitBoard(U64 bb);
+extern int PopBit(U64 *bb);
+extern int CountBits(U64 b); 
+
+// hashkey.c
+extern U64 GeneratePosKey(const BOARD *pos);
+
+
+// board.c
+extern void ResetBoard(BOARD *pos);
 
 
 #endif
