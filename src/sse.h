@@ -54,6 +54,12 @@ enum {FALSE, TRUE};
 
 enum {WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8};
 
+
+typedef struct {
+    int move;
+    int score;
+} MOVE;
+
 typedef struct {
 
     int move;
@@ -62,7 +68,7 @@ typedef struct {
     int fiftyMove;
     U64 posKey;
 
-} MOVE;
+} POSITION;
 
 
 
@@ -92,13 +98,25 @@ typedef struct {
     int material[2]; 
 
 
-    MOVE history[MAX_GAME_MOVES];
+    POSITION history[MAX_GAME_MOVES];
 
     int pieceList[13][10];
 
 
 } BOARD;
 
+// MOVE
+#define FROMSQ(m) ((m) & 0x7F)
+#define TOSQ(m) (((m) >> 7) & 0x7F)
+#define CAPTURED(m) (((m) >> 14) & 0xF)
+#define PROMOTED(m) (((m) >> 20) & 0xF)
+
+#define MASK_EP 0x40000
+#define MASK_PS 0x80000
+#define MASK_CA 0x1000000 
+ 
+#define MASK_CAP 0x7C000
+#define MASK_PROM 0xF00000
 
 // MACROS
 #define FR2SQ(f, r) ( (21 + (f) ) + ( (r) * 10 ) )
@@ -166,6 +184,10 @@ extern int CheckBoard(const BOARD *pos);
 
 // attack.c
 extern int SquareAttacked(const int sq, const int side, const BOARD *pos);
+
+// io.c
+extern char *SquareString(const int sq);
+extern char *PrintMove(const int move);
 
 
 #endif
