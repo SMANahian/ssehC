@@ -7,4 +7,6 @@ all:
 	src/data.c \
 	src/attack.c \
 	src/io.c \
+	src/genmove.c \
+	src/validate.c \
 	-o ssehc.out

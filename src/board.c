@@ -224,6 +224,7 @@ void ResetBoard(BOARD *pos) {
         pos->bigPiece[index] = 0;
         pos->majorPiece[index] = 0;
         pos->minorPiece[index] = 0;
+        pos->material[index] = 0;
         pos->pawns[index] = 0ULL;
     }
 

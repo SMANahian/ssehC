@@ -39,3 +39,15 @@ char *PrintMove(const int move) {
 
     return MvStr;
 }
+
+void PrintMoveList(const MOVE_LIST *list) {
+    int index = 0;
+    int score = 0;
+    printf("MoveList:\n");
+
+    for(index = 0; index < list->count; ++index) {
+        score = list->moves[index].score;
+        printf("Move:%d > %s (score:%d)\n",index+1,PrintMove(list->moves[index].move),score);
+    }
+    printf("MoveList Total %d Moves:\n\n",list->count);
+} 

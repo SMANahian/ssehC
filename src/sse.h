@@ -28,6 +28,7 @@ typedef unsigned long long U64;
 #define BOARD_SIZE 120
 
 #define MAX_GAME_MOVES 2048
+#define MAX_POSITION_MOVES 256
 
 #define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -59,6 +60,11 @@ typedef struct {
     int move;
     int score;
 } MOVE;
+
+typedef struct {
+    MOVE moves[MAX_POSITION_MOVES];
+    int count;
+} MOVE_LIST;
 
 typedef struct {
 
@@ -159,6 +165,7 @@ extern int PieceKnight[13];
 extern int PieceKing[13];
 extern int PieceRookQueen[13];
 extern int PieceBishopQueen[13];
+extern int PieceSlides[13];
 
 
 // Functions
@@ -188,6 +195,25 @@ extern int SquareAttacked(const int sq, const int side, const BOARD *pos);
 // io.c
 extern char *SquareString(const int sq);
 extern char *PrintMove(const int move);
+extern void PrintMoveList(const MOVE_LIST *list);
+
+// validate.c
+extern int SquareOnBoard(const int sq);
+extern int SideValid(const int side);
+extern int FileRankValid(const int fr);
+extern int PieceValidEmpty(const int pce);
+extern int PieceValid(const int pce);
+
+// genmove.c
+extern void AddNormalMove(const BOARD *pos, int move, MOVE_LIST *list);
+extern void AddCaptureMove(const BOARD *pos, int move, MOVE_LIST *list);
+extern void AddEnPassantMove(const BOARD *pos, int move, MOVE_LIST *list);
+extern void AddWhitePawnCapMove(const BOARD *pos, const int from, const int to, const int cap, MOVE_LIST *list);
+extern void AddWhitePawnMove(const BOARD *pos, const int from, const int to, MOVE_LIST *list);
+extern void AddBlackPawnCapMove(const BOARD *pos, const int from, const int to, const int cap, MOVE_LIST *list);
+extern void AddBlackPawnMove(const BOARD *pos, const int from, const int to, MOVE_LIST *list);
+extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
+
 
 
 #endif

@@ -9,6 +9,10 @@ int SquareAttacked(const int sq, const int side, const BOARD *pos) {
 
     int pce, t_sq, dir;
 
+    ASSERT(SquareOnBoard(sq));
+    ASSERT(SideValid(side));
+    ASSERT(CheckBoard(pos));
+
     // pawns
     if(side == WHITE) {
         if(pos->pieces[sq - 11] == wP || pos->pieces[sq - 9] == wP) {
