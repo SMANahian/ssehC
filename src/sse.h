@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DEBUG
+// #define DEBUG
 
 #ifndef DEBUG
 #define ASSERT(n)
@@ -212,6 +212,8 @@ extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
 extern int MakeMove(BOARD *pos, int move);
 extern void TakeMove(BOARD *pos);
 
+// perft.c
+extern void PerftTest(int depth, BOARD *pos);
 
 
 #endif

@@ -10,4 +10,5 @@ all:
 	src/genmove.c \
 	src/validate.c \
 	src/makemove.c \
+	src/perft.c \
 	-o ssehc.out

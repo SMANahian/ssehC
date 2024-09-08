@@ -14,15 +14,6 @@ int main() {
 
     BOARD board;
 
-    ParseFEN(FEN4, &board);
-
-    PrintBoard(&board);
-
-    MOVE_LIST moves;
-    GenerateAllMoves(&board, &moves);
-
-    PrintMoveList(&moves);
-
 
     return 0;
 }

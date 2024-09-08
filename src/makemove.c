@@ -24,7 +24,6 @@ const int CastlePerm[120] = {
 static void ClearPiece(const int sq, BOARD *pos) {
 
     ASSERT(SquareOnBoard(sq));
-    ASSERT(CheckBoard(pos));
 
     int pce = pos->pieces[sq];
 
@@ -69,7 +68,6 @@ static void AddPiece(const int sq, BOARD *pos, const int pce) {
 
     ASSERT(PieceValid(pce));
     ASSERT(SquareOnBoard(sq));
-    ASSERT(CheckBoard(pos));
 
     int color = PieceColor[pce];
 
@@ -98,7 +96,6 @@ static void MovePiece(const int from, const int to, BOARD *pos) {
 
     ASSERT(SquareOnBoard(from));
     ASSERT(SquareOnBoard(to));
-    ASSERT(CheckBoard(pos));
 
     int index = 0;
     int pce = pos->pieces[from];
@@ -197,10 +194,10 @@ int MakeMove(BOARD *pos, int move) {
         if(move & MASK_PS) {
             if(side == WHITE) {
                 pos->enPass = from+10;
-                ASSERT(Rank[from] == RANK_5);
+                ASSERT(Rank[pos->enPass] == RANK_3);
             } else {
                 pos->enPass = from-10;
-                ASSERT(Rank[from] == RANK_4);
+                ASSERT(Rank[pos->enPass] == RANK_6);
             }
             HASH_EP;
         }
