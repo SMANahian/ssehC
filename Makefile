@@ -9,4 +9,5 @@ all:
 	src/io.c \
 	src/genmove.c \
 	src/validate.c \
+	src/makemove.c \
 	-o ssehc.out

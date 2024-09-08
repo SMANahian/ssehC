@@ -165,6 +165,7 @@ extern int PieceKnight[13];
 extern int PieceKing[13];
 extern int PieceRookQueen[13];
 extern int PieceBishopQueen[13];
+extern int PiecePawn[13];
 extern int PieceSlides[13];
 
 
@@ -205,14 +206,11 @@ extern int PieceValidEmpty(const int pce);
 extern int PieceValid(const int pce);
 
 // genmove.c
-extern void AddNormalMove(const BOARD *pos, int move, MOVE_LIST *list);
-extern void AddCaptureMove(const BOARD *pos, int move, MOVE_LIST *list);
-extern void AddEnPassantMove(const BOARD *pos, int move, MOVE_LIST *list);
-extern void AddWhitePawnCapMove(const BOARD *pos, const int from, const int to, const int cap, MOVE_LIST *list);
-extern void AddWhitePawnMove(const BOARD *pos, const int from, const int to, MOVE_LIST *list);
-extern void AddBlackPawnCapMove(const BOARD *pos, const int from, const int to, const int cap, MOVE_LIST *list);
-extern void AddBlackPawnMove(const BOARD *pos, const int from, const int to, MOVE_LIST *list);
 extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
+
+// makemove.c
+extern int MakeMove(BOARD *pos, int move);
+extern void TakeMove(BOARD *pos);
 
 
 
