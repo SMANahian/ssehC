@@ -30,6 +30,23 @@ const int PieceDir[13][8] = {
 
 const int NumDir[13] = { 0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8 };
 
+int MoveExists(BOARD *pos, const int move) {
+
+    MOVE_LIST list[1];
+    GenerateAllMoves(pos, list);
+
+    int moveNum = 0;
+    for(moveNum = 0; moveNum < list->count; ++moveNum) {
+        if(!MakeMove(pos, list->moves[moveNum].move)) {
+            continue;
+        }
+        TakeMove(pos);
+        if(list->moves[moveNum].move == move) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+} 
 
 static void AddNormalMove(const BOARD *pos, int move, MOVE_LIST *list) {
     list->moves[list->count].move = move;

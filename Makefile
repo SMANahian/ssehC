@@ -11,4 +11,7 @@ all:
 	src/validate.c \
 	src/makemove.c \
 	src/perft.c \
+	src/misc.c \
+	src/search.c \
+	src/pvtable.c \
 	-o ssehc.out

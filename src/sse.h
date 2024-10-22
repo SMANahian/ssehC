@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// #define DEBUG
+#define DEBUG
 
 #ifndef DEBUG
 #define ASSERT(n)
@@ -29,6 +29,7 @@ typedef unsigned long long U64;
 
 #define MAX_GAME_MOVES 2048
 #define MAX_POSITION_MOVES 256
+#define MAX_DEPTH 64
 
 #define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -65,6 +66,16 @@ typedef struct {
     MOVE moves[MAX_POSITION_MOVES];
     int count;
 } MOVE_LIST;
+
+typedef struct {
+    U64 posKey;
+    int move;
+} PV_ENTRY;
+
+typedef struct {
+    PV_ENTRY *pTable;
+    int numEntries;
+} PV_TABLE;
 
 typedef struct {
 
@@ -108,6 +119,8 @@ typedef struct {
 
     int pieceList[13][10];
 
+    PV_TABLE PvTable[1]; 
+    int PvArray[MAX_DEPTH];
 
 } BOARD;
 
@@ -123,6 +136,8 @@ typedef struct {
  
 #define MASK_CAP 0x7C000
 #define MASK_PROM 0xF00000
+
+#define NOMOVE 0 
 
 // MACROS
 #define FR2SQ(f, r) ( (21 + (f) ) + ( (r) * 10 ) )
@@ -197,6 +212,7 @@ extern int SquareAttacked(const int sq, const int side, const BOARD *pos);
 extern char *SquareString(const int sq);
 extern char *PrintMove(const int move);
 extern void PrintMoveList(const MOVE_LIST *list);
+extern int ParseMove(char *ptrChar, BOARD *pos);
 
 // validate.c
 extern int SquareOnBoard(const int sq);
@@ -207,6 +223,7 @@ extern int PieceValid(const int pce);
 
 // genmove.c
 extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
+extern int MoveExists(BOARD *pos, const int move);
 
 // makemove.c
 extern int MakeMove(BOARD *pos, int move);
@@ -214,6 +231,18 @@ extern void TakeMove(BOARD *pos);
 
 // perft.c
 extern void PerftTest(int depth, BOARD *pos);
+
+// search.c
+extern void SearchPosition(BOARD *pos);
+
+// misc.c
+extern int GetTimeMs();
+
+// pvtable.c
+extern void InitPvTable(PV_TABLE *table);
+extern void StorePvMove(const BOARD *pos, const int move);
+extern int ProbePvTable(const BOARD *pos);
+extern int GetPvLine(const int depth, BOARD *pos);
 
 
 #endif
