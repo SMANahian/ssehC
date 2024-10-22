@@ -16,4 +16,5 @@ all:
 	src/pvtable.c \
 	src/evaluate.c \
 	src/uci.c \
+	src/xboard.c \
 	-o ssehc.out

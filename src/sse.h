@@ -43,7 +43,7 @@ enum {FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE}
 enum {RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE};
 
 enum {WHITE, BLACK, BOTH};
-
+enum {UCIMODE, XBOARDMODE, CONSOLEMODE}; 
 enum {
     A1 = 21, B1, C1, D1, E1, F1, G1, H1,
     A2 = 31, B2, C2, D2, E2, F2, G2, H2,
@@ -146,7 +146,10 @@ typedef struct {
     int stopped;
 
     float fh;
-    float fhf; 
+    float fhf;
+
+	int GAME_MODE;
+	int POST_THINKING;
 
 } SEARCHINFO;
 
@@ -209,6 +212,8 @@ extern int PieceBishopQueen[13];
 extern int PiecePawn[13];
 extern int PieceSlides[13];
 
+extern int Mirror64[64];
+
 
 // Functions
 
@@ -230,6 +235,7 @@ extern int ParseFEN(char *fen, BOARD *pos);
 extern void PrintBoard(const BOARD *pos);
 extern void UpdateListsMaterial(BOARD *pos);
 extern int CheckBoard(const BOARD *pos);
+extern void MirrorBoard(BOARD *pos);
 
 // attack.c
 extern int SquareAttacked(const int sq, const int side, const BOARD *pos);
@@ -246,6 +252,7 @@ extern int SideValid(const int side);
 extern int FileRankValid(const int fr);
 extern int PieceValidEmpty(const int pce);
 extern int PieceValid(const int pce);
+extern void MirrorEvalTest(BOARD *pos);
 
 // genmove.c
 extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
@@ -278,7 +285,11 @@ extern void ClearPvTable(PV_TABLE *table);
 extern int EvalPosition(const BOARD *pos);
 
 // uci.c
-extern void Uci_Loop();
+extern void Uci_Loop(BOARD *pos, SEARCHINFO *info);
 extern void ParsePosition(char *lineIn, BOARD *pos);
+
+// xboard.c
+extern void XBoard_Loop(BOARD *pos, SEARCHINFO *info);
+extern void Console_Loop(BOARD *pos, SEARCHINFO *info);
 
 #endif
