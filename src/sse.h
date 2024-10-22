@@ -33,6 +33,9 @@ typedef unsigned long long U64;
 
 #define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
+#define INFINITE 30000
+#define ISMATE (INFINITE - MAXDEPTH)
+
 
 
 enum {EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK }; 
@@ -122,7 +125,30 @@ typedef struct {
     PV_TABLE PvTable[1]; 
     int PvArray[MAX_DEPTH];
 
+    int searchHistory[13][BOARD_SIZE];
+    int searchKillers[2][MAX_DEPTH];
+
 } BOARD;
+
+typedef struct {
+
+    int starttime;
+    int stoptime;
+    int depth;
+    int depthset;
+    int timeset;
+    int movestogo;
+    int infinite;
+
+    long nodes;
+
+    int quit;
+    int stopped;
+
+    float fh;
+    float fhf; 
+
+} SEARCHINFO;
 
 // MOVE
 #define FROMSQ(m) ((m) & 0x7F)
@@ -233,7 +259,7 @@ extern void TakeMove(BOARD *pos);
 extern void PerftTest(int depth, BOARD *pos);
 
 // search.c
-extern void SearchPosition(BOARD *pos);
+extern void SearchPosition(BOARD *pos, SEARCHINFO *info); 
 
 // misc.c
 extern int GetTimeMs();
@@ -243,6 +269,9 @@ extern void InitPvTable(PV_TABLE *table);
 extern void StorePvMove(const BOARD *pos, const int move);
 extern int ProbePvTable(const BOARD *pos);
 extern int GetPvLine(const int depth, BOARD *pos);
+extern void ClearPvTable(PV_TABLE *table);
 
+// evaluate.c
+extern int EvalPosition(const BOARD *pos);
 
 #endif

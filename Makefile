@@ -14,4 +14,5 @@ all:
 	src/misc.c \
 	src/search.c \
 	src/pvtable.c \
+	src/evaluate.c \
 	-o ssehc.out

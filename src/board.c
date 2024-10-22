@@ -250,7 +250,7 @@ void ResetBoard(BOARD *pos) {
 
     pos->posKey = 0ULL;
 
-    // InitPvTable(pos->PvTable);
+    InitPvTable(pos->PvTable);
 
 }
 
