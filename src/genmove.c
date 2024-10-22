@@ -327,8 +327,128 @@ void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list) {
                     if(PieceColor[pos->pieces[t_sq]] != side) {
                         AddCaptureMove(pos, MOVE_INT(sq, t_sq, pos->pieces[t_sq], EMPTY, 0), list);
                     }
-                } else {
-                    AddNormalMove(pos, MOVE_INT(sq, t_sq, EMPTY, EMPTY, 0), list);
+                    continue;
+                }
+                AddNormalMove(pos, MOVE_INT(sq, t_sq, EMPTY, EMPTY, 0), list);
+            }
+
+        }
+        
+        pce = LoopNonSlidePiece[pceIndex++];
+    }
+}
+
+void GenerateAllCaptures(const BOARD *pos, MOVE_LIST *list) {
+
+    ASSERT(CheckBoard(pos));
+
+    list->count = 0;
+
+    int pce = EMPTY;
+    int side = pos->side;
+    int sq = 0; int t_sq = 0;
+    int pceNum = 0;
+    int dir = 0;
+    int index = 0;
+    int pceIndex = 0;
+    int pceNumIndex = 0;
+    
+    if(side == WHITE) {
+        for(pceNum = 0; pceNum < pos->pieceNum[wP]; ++pceNum) {
+            sq = pos->pieceList[wP][pceNum];
+            ASSERT(SquareOnBoard(sq));
+            if(!SQOFFBOARD(sq + 9) && PieceColor[pos->pieces[sq + 9]] == BLACK) {
+                AddWhitePawnCapMove(pos, sq, sq + 9, pos->pieces[sq + 9], list);
+            }
+            if(!SQOFFBOARD(sq + 11) && PieceColor[pos->pieces[sq  + 11]] == BLACK) {
+                AddWhitePawnCapMove(pos, sq, sq + 11, pos->pieces[sq + 11], list);
+            }
+            if(pos->enPass != NO_SQ) {
+                if(sq + 9 == pos->enPass) {
+                    AddEnPassantMove(pos, MOVE_INT(sq, sq + 9, EMPTY, EMPTY, MASK_EP), list);
+                }
+                if(sq + 11 == pos->enPass) {
+                    AddEnPassantMove(pos, MOVE_INT(sq, sq + 11, EMPTY, EMPTY, MASK_EP), list);
+                }
+            }
+        }
+    } else {
+        for(pceNum = 0; pceNum < pos->pieceNum[bP]; ++pceNum) {
+            sq = pos->pieceList[bP][pceNum];
+            ASSERT(SquareOnBoard(sq));
+            if(!SQOFFBOARD(sq - 9) && PieceColor[pos->pieces[sq - 9]] == WHITE) {
+                AddBlackPawnCapMove(pos, sq, sq - 9, pos->pieces[sq - 9], list);
+            }
+            if(!SQOFFBOARD(sq - 11) && PieceColor[pos->pieces[sq - 11]] == WHITE) {
+                AddBlackPawnCapMove(pos, sq, sq - 11, pos->pieces[sq - 11], list);
+            }
+            if(pos->enPass != NO_SQ) {
+                if(sq - 9 == pos->enPass) {
+                    AddEnPassantMove(pos, MOVE_INT(sq, sq - 9, EMPTY, EMPTY, MASK_EP), list);
+                }
+                if(sq - 11 == pos->enPass) {
+                    AddEnPassantMove(pos, MOVE_INT(sq, sq - 11, EMPTY, EMPTY, MASK_EP), list);
+                }
+            }
+        }
+    }
+
+
+    // Sliding pieces
+    pceIndex = LoopSlideIndex[side];
+    pce = LoopSlidePiece[pceIndex++];
+
+    while(pce != 0) {
+        ASSERT(PieceValid(pce));
+
+        for(pceNum = 0; pceNum < pos->pieceNum[pce]; ++pceNum) {
+            sq = pos->pieceList[pce][pceNum];
+            ASSERT(SquareOnBoard(sq));
+
+            for(index = 0; index < NumDir[pce]; ++index) {
+                dir = PieceDir[pce][index];
+                t_sq = sq + dir;
+
+                while(!SQOFFBOARD(t_sq)) {
+                    if(pos->pieces[t_sq] != EMPTY) {
+                        if(PieceColor[pos->pieces[t_sq]] != side) {
+                            AddCaptureMove(pos, MOVE_INT(sq, t_sq, pos->pieces[t_sq], EMPTY, 0), list);
+                        }
+                        break;
+                    }
+                    t_sq += dir;
+                }
+            }
+
+        }
+        
+        pce = LoopSlidePiece[pceIndex++];
+    }
+
+    // Non-sliding pieces
+    pceIndex = LoopNonSlideIndex[side];
+    pce = LoopNonSlidePiece[pceIndex++];
+
+    while(pce != 0) {
+        ASSERT(PieceValid(pce));
+
+        for(pceNum = 0; pceNum < pos->pieceNum[pce]; ++pceNum) {
+            sq = pos->pieceList[pce][pceNum];
+            ASSERT(SquareOnBoard(sq));
+
+            for(index = 0; index < NumDir[pce]; ++index) {
+                dir = PieceDir[pce][index];
+                t_sq = sq + dir;
+
+                if(SQOFFBOARD(t_sq)) {
+                    continue;
+                }
+
+                if(pos->pieces[t_sq] != EMPTY) {
+                    if(PieceColor[pos->pieces[t_sq]] != side) {
+                        AddCaptureMove(pos, MOVE_INT(sq, t_sq, pos->pieces[t_sq], EMPTY, 0), list);
+                    }
+                    continue;
                 }
             }
 
@@ -336,6 +456,4 @@ void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list) {
         
         pce = LoopNonSlidePiece[pceIndex++];
     }
-    
-
 }

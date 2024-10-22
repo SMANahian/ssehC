@@ -249,6 +249,7 @@ extern int PieceValid(const int pce);
 
 // genmove.c
 extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
+extern void GenerateAllCaptures(const BOARD *pos, MOVE_LIST *list);
 extern int MoveExists(BOARD *pos, const int move);
 extern int InitMvvLva();
 
@@ -264,6 +265,7 @@ extern void SearchPosition(BOARD *pos, SEARCHINFO *info);
 
 // misc.c
 extern int GetTimeMs();
+extern void ReadInput(SEARCHINFO *info);
 
 // pvtable.c
 extern void InitPvTable(PV_TABLE *table);
@@ -274,5 +276,9 @@ extern void ClearPvTable(PV_TABLE *table);
 
 // evaluate.c
 extern int EvalPosition(const BOARD *pos);
+
+// uci.c
+extern void Uci_Loop();
+extern void ParsePosition(char *lineIn, BOARD *pos);
 
 #endif
