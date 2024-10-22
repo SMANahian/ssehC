@@ -165,6 +165,12 @@ static int AlphaBeta(int alpha, int beta, int depth, BOARD *pos, SEARCHINFO *inf
         return EvalPosition(pos);
     }
 
+    int InCheck = SquareAttacked(pos->KingSq[pos->side], pos->side ^ 1, pos);
+
+    if(InCheck == TRUE) {
+        depth++;
+    }
+
     MOVE_LIST list[1];
     GenerateAllMoves(pos, list);
 
@@ -224,7 +230,7 @@ static int AlphaBeta(int alpha, int beta, int depth, BOARD *pos, SEARCHINFO *inf
     }
 
     if(Legal == 0) {
-        if(SquareAttacked(pos->KingSq[pos->side], pos->side ^ 1, pos) == TRUE) {
+        if(InCheck) {
             return -INFINITE + pos->ply;
         } else {
             return 0;
