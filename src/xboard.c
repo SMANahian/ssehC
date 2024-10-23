@@ -91,7 +91,7 @@ void XBoard_Loop(BOARD *pos, SEARCHINFO *info) {
 	info->POST_THINKING = TRUE;
 	setbuf(stdin, NULL);
     setbuf(stdout, NULL);
-	PrintOptions(); // HACK
+	PrintOptions();
 
 	int depth = -1, movestogo[2] = {30,30 }, movetime = -1;
 	int time = -1, inc = 0;
@@ -185,14 +185,14 @@ void XBoard_Loop(BOARD *pos, SEARCHINFO *info) {
 			continue;
 		}
 		
-		// if(!strcmp(command, "memory")) {			
-		// 	sscanf(inBuf, "memory %d", &MB);		
-		//     if(MB < 4) MB = 4;
-		// 	if(MB > MAX_HASH) MB = MAX_HASH;
-		// 	printf("Set Hash to %d MB\n",MB);
-		// 	InitHashTable(pos->HashTable, MB);
-		// 	continue;
-		// }
+		if(!strcmp(command, "memory")) {			
+			sscanf(inBuf, "memory %d", &MB);		
+		    if(MB < 4) MB = 4;
+			if(MB > MAX_HASH) MB = MAX_HASH;
+			printf("Set Hash to %d MB\n",MB);
+			InitHashTable(pos->HashTable, MB);
+			continue;
+		}
 
 		if(!strcmp(command, "level")) {
 			sec = 0;

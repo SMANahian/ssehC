@@ -6,6 +6,8 @@
 
 // #define DEBUG
 
+#define MAX_HASH 1024
+
 #ifndef DEBUG
 #define ASSERT(n)
 #else
@@ -34,7 +36,7 @@ typedef unsigned long long U64;
 #define START_POSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 #define INFINITE 30000
-#define ISMATE (INFINITE - MAXDEPTH)
+#define ISMATE (INFINITE - MAX_DEPTH)
 
 
 
@@ -70,15 +72,24 @@ typedef struct {
     int count;
 } MOVE_LIST;
 
+enum {HFNONE, HFALPHA, HFBETA, HFEXACT};
+
 typedef struct {
     U64 posKey;
     int move;
-} PV_ENTRY;
+    int score;
+    int depth;
+    int flags;
+} HASH_ENTRY;
 
 typedef struct {
-    PV_ENTRY *pTable;
+    HASH_ENTRY *pTable;
     int numEntries;
-} PV_TABLE;
+    int newWrite;
+    int overWrite;
+    int hit;
+    int cut;
+} HASH_TABLE;
 
 typedef struct {
 
@@ -122,7 +133,7 @@ typedef struct {
 
     int pieceList[13][10];
 
-    PV_TABLE PvTable[1]; 
+    HASH_TABLE HashTable[1]; 
     int PvArray[MAX_DEPTH];
 
     int searchHistory[13][BOARD_SIZE];
@@ -152,6 +163,10 @@ typedef struct {
 	int POST_THINKING;
 
 } SEARCHINFO;
+
+typedef struct {
+	int UseBook;
+} OPTIONS;
 
 // MOVE
 #define FROMSQ(m) ((m) & 0x7F)
@@ -223,6 +238,8 @@ extern U64 BlackPassedMask[64];
 extern U64 WhitePassedMask[64];
 extern U64 IsolatedMask[64];
 
+extern OPTIONS EngineOptions[1];
+
 
 // Functions
 
@@ -262,6 +279,11 @@ extern int FileRankValid(const int fr);
 extern int PieceValidEmpty(const int pce);
 extern int PieceValid(const int pce);
 extern void MirrorEvalTest(BOARD *pos);
+extern int SqIs120(const int sq);
+extern int PceValidEmptyOffbrd(const int pce);
+extern int MoveListOk(const MOVE_LIST *list,  const BOARD *pos);
+extern void DebugAnalysisTest(BOARD *pos, SEARCHINFO *info);
+
 
 // genmove.c
 extern void GenerateAllMoves(const BOARD *pos, MOVE_LIST *list);
@@ -272,6 +294,8 @@ extern int InitMvvLva();
 // makemove.c
 extern int MakeMove(BOARD *pos, int move);
 extern void TakeMove(BOARD *pos);
+extern void MakeNullMove(BOARD *pos);
+extern void TakeNullMove(BOARD *pos);
 
 // perft.c
 extern void PerftTest(int depth, BOARD *pos);
@@ -284,11 +308,12 @@ extern int GetTimeMs();
 extern void ReadInput(SEARCHINFO *info);
 
 // pvtable.c
-extern void InitPvTable(PV_TABLE *table);
-extern void StorePvMove(const BOARD *pos, const int move);
-extern int ProbePvTable(const BOARD *pos);
+extern void InitHashTable(HASH_TABLE *table, const int MB);
+extern void StoreHashEntry(BOARD *pos, const int move, int score, const int flags, const int depth);
+extern int ProbeHashEntry(BOARD *pos, int *move, int *score, int alpha, int beta, int depth);
+extern int ProbePvMove(const BOARD *pos);
 extern int GetPvLine(const int depth, BOARD *pos);
-extern void ClearPvTable(PV_TABLE *table);
+extern void ClearHashTable(HASH_TABLE *table);
 
 // evaluate.c
 extern int EvalPosition(const BOARD *pos);
@@ -300,5 +325,10 @@ extern void ParsePosition(char *lineIn, BOARD *pos);
 // xboard.c
 extern void XBoard_Loop(BOARD *pos, SEARCHINFO *info);
 extern void Console_Loop(BOARD *pos, SEARCHINFO *info);
+
+// polykeys.c
+extern int GetBookMove(BOARD *board);
+extern void CleanPolyBook();
+extern void InitPolyBook();
 
 #endif

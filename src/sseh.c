@@ -12,13 +12,44 @@
 #define WAC1 "r1b1k2r/ppppnppp/2n2q2/2b5/3NP3/2P1B3/PP3PPP/RN1QKB1R w KQkq - 0 1"
 
 
-int main() {
+int main(int argc, char *argv[]) {
 
     Init();
 
     BOARD pos[1];
     SEARCHINFO info[1];
-    InitPvTable(pos->PvTable);
+    info->quit = FALSE;
+    pos->HashTable->pTable = NULL;
+    InitHashTable(pos->HashTable, 64);
+
+    setbuf(stdin, NULL);
+    setbuf(stdout, NULL);
+
+    int ArgNum = 0;
+    
+    for(ArgNum = 0; ArgNum < argc; ++ArgNum) {
+    	if(strncmp(argv[ArgNum], "NoBook", 6) == 0) {
+    		EngineOptions->UseBook = FALSE;
+    		printf("Book Off\n");
+    	}
+    }
+
+    if(argc > 1) {
+        if(!strncmp(argv[1], "xboard", 6)) {
+            XBoard_Loop(pos, info);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
+            return 0;
+        } else if(!strncmp(argv[1], "console", 7)) {
+            Console_Loop(pos, info);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
+            return 0;
+        } else if(!strncmp(argv[1], "uci", 3)) {
+            Uci_Loop(pos, info);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
+            return 0;
+        }
+    }
+
 
     printf("Welcome to SSEH! Type 'uci' for UCI mode, 'xboard' for XBoard mode, 'console' for Console mode, or 'quit' to exit.\n"); 
 
@@ -37,23 +68,24 @@ int main() {
 
         if(!strncmp(line, "uci", 3)) {
             Uci_Loop(pos, info);
-            if(pos->PvTable->pTable != NULL) free(pos->PvTable->pTable);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
             return 0;
         } else if(!strncmp(line, "xboard", 6)) {
             XBoard_Loop(pos, info);
-            if(pos->PvTable->pTable != NULL) free(pos->PvTable->pTable);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
             return 0;
         } else if(!strncmp(line, "console", 7)) {
             Console_Loop(pos, info);
-            if(pos->PvTable->pTable != NULL) free(pos->PvTable->pTable);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
             return 0;
         } else if(!strncmp(line, "quit", 4)) {
-            if(pos->PvTable->pTable != NULL) free(pos->PvTable->pTable);
+            if(pos->HashTable->pTable != NULL) free(pos->HashTable->pTable);
             return 0;
         }
     }
 
-    free(pos->PvTable->pTable);
+    free(pos->HashTable->pTable);
+    CleanPolyBook();
 
     return 0;
 }

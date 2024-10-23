@@ -41,6 +41,9 @@ char *PrintMove(const int move) {
 }
 
 int ParseMove(char *ptrChar, BOARD *pos) {
+
+    ASSERT(CheckBoard(pos));
+
     if(ptrChar[1] > '8' || ptrChar[1] < '1') return NOMOVE;
     if(ptrChar[3] > '8' || ptrChar[3] < '1') return NOMOVE;
     if(ptrChar[0] > 'h' || ptrChar[0] < 'a') return NOMOVE;

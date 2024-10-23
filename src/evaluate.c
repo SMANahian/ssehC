@@ -7,6 +7,7 @@ const int RookOpenFile = 10;
 const int RookSemiOpenFile = 5;
 const int QueenOpenFile = 5;
 const int QueenSemiOpenFile = 3;
+const int BishopPair = 30;
 
 const int PawnTable[64] = {
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
@@ -212,7 +213,7 @@ int EvalPosition(const BOARD *pos) {
 	ASSERT(SquareOnBoard(sq));
 	ASSERT(SQ64(sq)>=0 && SQ64(sq)<=63);
 	
-	if( (pos->material[BLACK] <= ENDGAME_MAT) || (pos->pieceNum[bQ] == 0) ) {
+	if( (pos->material[BLACK] <= ENDGAME_MAT) ) {
 		score += KingE[SQ64(sq)];
 	} else {
 		score += KingO[SQ64(sq)];
@@ -223,11 +224,14 @@ int EvalPosition(const BOARD *pos) {
 	ASSERT(SquareOnBoard(sq));
 	ASSERT(MIRROR64(SQ64(sq))>=0 && MIRROR64(SQ64(sq))<=63);
 	
-	if( (pos->material[WHITE] <= ENDGAME_MAT) || (pos->pieceNum[wQ] == 0) ) {
+	if( (pos->material[WHITE] <= ENDGAME_MAT) ) {
 		score -= KingE[MIRROR64(SQ64(sq))];
 	} else {
 		score -= KingO[MIRROR64(SQ64(sq))];
 	}
+
+    if(pos->pieceNum[wB] >= 2) score += BishopPair;
+    if(pos->pieceNum[bB] >= 2) score -= BishopPair;
 
     return pos->side == WHITE ? score : -score;
 

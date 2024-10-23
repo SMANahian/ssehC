@@ -28,6 +28,8 @@ U64 BlackPassedMask[64];
 U64 WhitePassedMask[64];
 U64 IsolatedMask[64];
 
+OPTIONS EngineOptions[1];
+
 void InitEvalMasks() {
     int sq, tsq, file, rank;
 
@@ -178,4 +180,5 @@ void Init() {
     InitFileRank();
     InitEvalMasks();
     InitMvvLva();
+	InitPolyBook();
 }

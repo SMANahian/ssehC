@@ -294,3 +294,49 @@ void TakeMove(BOARD *pos) {
     ASSERT(CheckBoard(pos));
 
 }
+
+void MakeNullMove(BOARD *pos) {
+
+    ASSERT(CheckBoard(pos));
+    ASSERT(!SquareAttacked(pos->KingSq[pos->side],pos->side^1,pos));
+
+    pos->ply++;
+    pos->history[pos->hisPly].posKey = pos->posKey;
+
+    if(pos->enPass != NO_SQ) HASH_EP;
+
+    pos->history[pos->hisPly].move = NOMOVE;
+    pos->history[pos->hisPly].fiftyMove = pos->fiftyMove;
+    pos->history[pos->hisPly].enPass = pos->enPass;
+    pos->history[pos->hisPly].castlePerm = pos->castlePerm;
+    pos->enPass = NO_SQ;
+
+    pos->side ^= 1;
+    pos->hisPly++;
+    HASH_SIDE;
+
+    ASSERT(CheckBoard(pos));
+
+}
+
+void TakeNullMove(BOARD *pos) {
+
+    ASSERT(CheckBoard(pos));
+
+    pos->hisPly--;
+    pos->ply--;
+
+    if(pos->enPass != NO_SQ) HASH_EP;
+
+    pos->castlePerm = pos->history[pos->hisPly].castlePerm;
+    pos->fiftyMove = pos->history[pos->hisPly].fiftyMove;
+    pos->enPass = pos->history[pos->hisPly].enPass;
+
+    if(pos->enPass != NO_SQ) HASH_EP;
+
+    pos->side ^= 1;
+    HASH_SIDE;
+
+    ASSERT(CheckBoard(pos));
+
+}

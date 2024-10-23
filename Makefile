@@ -17,4 +17,7 @@ all:
 	src/evaluate.c \
 	src/uci.c \
 	src/xboard.c \
-	-o ssehc
+	src/polybook.c \
+	src/polykeys.c \
+	-o ssehc \
+	-O3 -Wall -Wextra -Wpedantic -Wno-unused-result -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-value -Wno-unused-label -Wno-unused-label -Wno-unused-local-typedefs
