@@ -8,70 +8,70 @@
 
 void ParseGo(char* line, SEARCHINFO *info, BOARD *pos) {
 
-	int depth = -1, movestogo = 30,movetime = -1;
-	int time = -1, inc = 0;
+    int depth = -1, movestogo = 30,movetime = -1;
+    int time = -1, inc = 0;
     char *ptr = NULL;
-	info->timeset = FALSE;
+    info->timeset = FALSE;
 
-	if ((ptr = strstr(line,"infinite"))) {
-		;
-	}
+    if ((ptr = strstr(line,"infinite"))) {
+        ;
+    }
 
-	if ((ptr = strstr(line,"binc")) && pos->side == BLACK) {
-		inc = atoi(ptr + 5);
-	}
+    if ((ptr = strstr(line,"binc")) && pos->side == BLACK) {
+        inc = atoi(ptr + 5);
+    }
 
-	if ((ptr = strstr(line,"winc")) && pos->side == WHITE) {
-		inc = atoi(ptr + 5);
-	}
+    if ((ptr = strstr(line,"winc")) && pos->side == WHITE) {
+        inc = atoi(ptr + 5);
+    }
 
-	if ((ptr = strstr(line,"wtime")) && pos->side == WHITE) {
-		time = atoi(ptr + 6);
-	}
+    if ((ptr = strstr(line,"wtime")) && pos->side == WHITE) {
+        time = atoi(ptr + 6);
+    }
 
-	if ((ptr = strstr(line,"btime")) && pos->side == BLACK) {
-		time = atoi(ptr + 6);
-	}
+    if ((ptr = strstr(line,"btime")) && pos->side == BLACK) {
+        time = atoi(ptr + 6);
+    }
 
-	if ((ptr = strstr(line,"movestogo"))) {
-		movestogo = atoi(ptr + 10);
-	}
+    if ((ptr = strstr(line,"movestogo"))) {
+        movestogo = atoi(ptr + 10);
+    }
 
-	if ((ptr = strstr(line,"movetime"))) {
-		movetime = atoi(ptr + 9);
-	}
+    if ((ptr = strstr(line,"movetime"))) {
+        movetime = atoi(ptr + 9);
+    }
 
-	if ((ptr = strstr(line,"depth"))) {
-		depth = atoi(ptr + 6);
-	}
+    if ((ptr = strstr(line,"depth"))) {
+        depth = atoi(ptr + 6);
+    }
 
-	if(movetime != -1) {
-		time = movetime;
-		movestogo = 1;
-	}
+    if(movetime != -1) {
+        time = movetime;
+        movestogo = 1;
+    }
 
-	info->starttime = GetTimeMs();
-	info->depth = depth;
+    info->starttime = GetTimeMs();
+    info->depth = depth;
 
-	if(time != -1) {
-		info->timeset = TRUE;
-		time /= movestogo;
-		time -= 50;
-		info->stoptime = info->starttime + time + inc;
-	}
+    if(time != -1) {
+        info->timeset = TRUE;
+        time /= movestogo;
+        time -= 50;
+        info->stoptime = info->starttime + time + inc;
+    }
 
-	if(depth == -1) {
-		info->depth = MAX_DEPTH;
-	}
+    if(depth == -1) {
+        info->depth = MAX_DEPTH;
+    }
 
-	printf("time:%d start:%d stop:%d depth:%d timeset:%d\n",
-		time,info->starttime,info->stoptime,info->depth,info->timeset);
-	SearchPosition(pos, info);
+    printf("time:%d start:%d stop:%d depth:%d timeset:%d\n",
+        time,info->starttime,info->stoptime,info->depth,info->timeset);
+    SearchPosition(pos, info);
 }
 
 void ParsePosition(char* lineIn, BOARD *pos) {
 
-	lineIn += 9;
+    lineIn += 9;
     char *ptrChar = lineIn;
 
     if(strncmp(lineIn, "startpos", 8) == 0){
@@ -86,41 +86,41 @@ void ParsePosition(char* lineIn, BOARD *pos) {
         }
     }
 
-	ptrChar = strstr(lineIn, "moves");
-	int move;
+    ptrChar = strstr(lineIn, "moves");
+    int move;
 
-	if(ptrChar != NULL) {
+    if(ptrChar != NULL) {
         ptrChar += 6;
         while(*ptrChar) {
               move = ParseMove(ptrChar,pos);
-			  if(move == NOMOVE) break;
-			  MakeMove(pos, move);
+              if(move == NOMOVE) break;
+              MakeMove(pos, move);
               pos->ply=0;
               while(*ptrChar && *ptrChar!= ' ') ptrChar++;
               ptrChar++;
         }
     }
-	PrintBoard(pos);
+    PrintBoard(pos);
 }
 
 void Uci_Loop(BOARD *pos, SEARCHINFO *info) {
 
-	info->GAME_MODE = UCIMODE;
+    info->GAME_MODE = UCIMODE;
 
-	setbuf(stdin, NULL);
+    setbuf(stdin, NULL);
     setbuf(stdout, NULL);
 
-	char line[INPUTBUFFER];
+    char line[INPUTBUFFER];
     printf("id name %s\n",NAME);
     printf("id author Bluefever\n");
-	printf("option name Hash type spin default 64 min 4 max %d\n", MAX_HASH);
-	printf("option name Book type check default true\n");
+    printf("option name Hash type spin default 64 min 4 max %d\n", MAX_HASH);
+    printf("option name Book type check default true\n");
     printf("uciok\n");
-	
-	int MB = 64;
+    
+    int MB = 64;
 
-	while (TRUE) {
-		memset(&line[0], 0, sizeof(line));
+    while (TRUE) {
+        memset(&line[0], 0, sizeof(line));
         fflush(stdout);
         if (!fgets(line, INPUTBUFFER, stdin))
         continue;
@@ -148,21 +148,21 @@ void Uci_Loop(BOARD *pos, SEARCHINFO *info) {
         } else if (!strncmp(line, "debug", 4)) {
             DebugAnalysisTest(pos,info);
             break;
-        } else if (!strncmp(line, "setoption name Hash value ", 26)) {			
-			sscanf(line,"%*s %*s %*s %*s %d",&MB);
-			if(MB < 4) MB = 4;
-			if(MB > MAX_HASH) MB = MAX_HASH;
-			printf("Set Hash to %d MB\n",MB);
-			InitHashTable(pos->HashTable, MB);
-		} else if (!strncmp(line, "setoption name Book value ", 26)) {			
-			char *ptrTrue = NULL;
-			ptrTrue = strstr(line, "true");
-			if(ptrTrue != NULL) {
-				EngineOptions->UseBook = TRUE;
-			} else {
-				EngineOptions->UseBook = FALSE;
-			}
-		}
-		if(info->quit) break;
+        } else if (!strncmp(line, "setoption name Hash value ", 26)) {            
+            sscanf(line,"%*s %*s %*s %*s %d",&MB);
+            if(MB < 4) MB = 4;
+            if(MB > MAX_HASH) MB = MAX_HASH;
+            printf("Set Hash to %d MB\n",MB);
+            InitHashTable(pos->HashTable, MB);
+        } else if (!strncmp(line, "setoption name Book value ", 26)) {            
+            char *ptrTrue = NULL;
+            ptrTrue = strstr(line, "true");
+            if(ptrTrue != NULL) {
+                EngineOptions->UseBook = TRUE;
+            } else {
+                EngineOptions->UseBook = FALSE;
+            }
+        }
+        if(info->quit) break;
     }
 }

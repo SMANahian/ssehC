@@ -290,12 +290,12 @@ void MirrorBoard(BOARD *pos) {
 
     int tempPiecesArray[64];
     int tempSide = pos->side^1;
-	int SwapPiece[13] = { EMPTY, bP, bN, bB, bR, bQ, bK, wP, wN, wB, wR, wQ, wK };
+    int SwapPiece[13] = { EMPTY, bP, bN, bB, bR, bQ, bK, wP, wN, wB, wR, wQ, wK };
     int tempCastlePerm = 0;
     int tempEnPas = NO_SQ;
 
-	int sq;
-	int tp;
+    int sq;
+    int tp;
 
     if (pos->castlePerm & WKCA) tempCastlePerm |= BKCA;
     if (pos->castlePerm & WQCA) tempCastlePerm |= BQCA;
@@ -303,7 +303,7 @@ void MirrorBoard(BOARD *pos) {
     if (pos->castlePerm & BKCA) tempCastlePerm |= WKCA;
     if (pos->castlePerm & BQCA) tempCastlePerm |= WQCA;
 
-	if (pos->enPass != NO_SQ)  {
+    if (pos->enPass != NO_SQ)  {
         tempEnPas = SQ120(Mirror64[SQ64(pos->enPass)]);
     }
 
@@ -313,18 +313,18 @@ void MirrorBoard(BOARD *pos) {
 
     ResetBoard(pos);
 
-	for (sq = 0; sq < 64; sq++) {
+    for (sq = 0; sq < 64; sq++) {
         tp = SwapPiece[tempPiecesArray[sq]];
         pos->pieces[SQ120(sq)] = tp;
     }
 
-	pos->side = tempSide;
+    pos->side = tempSide;
     pos->castlePerm = tempCastlePerm;
     pos->enPass = tempEnPas;
 
     pos->posKey = GeneratePosKey(pos);
 
-	UpdateListsMaterial(pos);
+    UpdateListsMaterial(pos);
 
     ASSERT(CheckBoard(pos));
 }

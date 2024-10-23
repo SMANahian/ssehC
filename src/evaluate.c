@@ -10,86 +10,86 @@ const int QueenSemiOpenFile = 3;
 const int BishopPair = 30;
 
 const int PawnTable[64] = {
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
-10	,	10	,	0	,	-10	,	-10	,	0	,	10	,	10	,
-5	,	0	,	0	,	5	,	5	,	0	,	0	,	5	,
-0	,	0	,	10	,	20	,	20	,	10	,	0	,	0	,
-5	,	5	,	5	,	10	,	10	,	5	,	5	,	5	,
-10	,	10	,	10	,	20	,	20	,	10	,	10	,	10	,
-20	,	20	,	20	,	30	,	30	,	20	,	20	,	20	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	
+0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,
+10    ,    10    ,    0    ,    -10    ,    -10    ,    0    ,    10    ,    10    ,
+5    ,    0    ,    0    ,    5    ,    5    ,    0    ,    0    ,    5    ,
+0    ,    0    ,    10    ,    20    ,    20    ,    10    ,    0    ,    0    ,
+5    ,    5    ,    5    ,    10    ,    10    ,    5    ,    5    ,    5    ,
+10    ,    10    ,    10    ,    20    ,    20    ,    10    ,    10    ,    10    ,
+20    ,    20    ,    20    ,    30    ,    30    ,    20    ,    20    ,    20    ,
+0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    
 };
 
 const int KnightTable[64] = {
-0	,	-10	,	0	,	0	,	0	,	0	,	-10	,	0	,
-0	,	0	,	0	,	5	,	5	,	0	,	0	,	0	,
-0	,	0	,	10	,	10	,	10	,	10	,	0	,	0	,
-0	,	0	,	10	,	20	,	20	,	10	,	5	,	0	,
-5	,	10	,	15	,	20	,	20	,	15	,	10	,	5	,
-5	,	10	,	10	,	20	,	20	,	10	,	10	,	5	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0		
+0    ,    -10    ,    0    ,    0    ,    0    ,    0    ,    -10    ,    0    ,
+0    ,    0    ,    0    ,    5    ,    5    ,    0    ,    0    ,    0    ,
+0    ,    0    ,    10    ,    10    ,    10    ,    10    ,    0    ,    0    ,
+0    ,    0    ,    10    ,    20    ,    20    ,    10    ,    5    ,    0    ,
+5    ,    10    ,    15    ,    20    ,    20    ,    15    ,    10    ,    5    ,
+5    ,    10    ,    10    ,    20    ,    20    ,    10    ,    10    ,    5    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0        
 };
 
 const int BishopTable[64] = {
-0	,	0	,	-10	,	0	,	0	,	-10	,	0	,	0	,
-0	,	0	,	0	,	10	,	10	,	0	,	0	,	0	,
-0	,	0	,	10	,	15	,	15	,	10	,	0	,	0	,
-0	,	10	,	15	,	20	,	20	,	15	,	10	,	0	,
-0	,	10	,	15	,	20	,	20	,	15	,	10	,	0	,
-0	,	0	,	10	,	15	,	15	,	10	,	0	,	0	,
-0	,	0	,	0	,	10	,	10	,	0	,	0	,	0	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	
+0    ,    0    ,    -10    ,    0    ,    0    ,    -10    ,    0    ,    0    ,
+0    ,    0    ,    0    ,    10    ,    10    ,    0    ,    0    ,    0    ,
+0    ,    0    ,    10    ,    15    ,    15    ,    10    ,    0    ,    0    ,
+0    ,    10    ,    15    ,    20    ,    20    ,    15    ,    10    ,    0    ,
+0    ,    10    ,    15    ,    20    ,    20    ,    15    ,    10    ,    0    ,
+0    ,    0    ,    10    ,    15    ,    15    ,    10    ,    0    ,    0    ,
+0    ,    0    ,    0    ,    10    ,    10    ,    0    ,    0    ,    0    ,
+0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    ,    0    
 };
 
 const int RookTable[64] = {
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
-25	,	25	,	25	,	25	,	25	,	25	,	25	,	25	,
-0	,	0	,	5	,	10	,	10	,	5	,	0	,	0		
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0    ,
+25    ,    25    ,    25    ,    25    ,    25    ,    25    ,    25    ,    25    ,
+0    ,    0    ,    5    ,    10    ,    10    ,    5    ,    0    ,    0        
 };
 
-const int KingE[64] = {	
-	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	,
-	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
-	0	,	10	,	20	,	20	,	20	,	20	,	10	,	0	,
-	0	,	10	,	20	,	40	,	40	,	20	,	10	,	0	,
-	0	,	10	,	20	,	40	,	40	,	20	,	10	,	0	,
-	0	,	10	,	20	,	20	,	20	,	20	,	10	,	0	,
-	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
-	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	
+const int KingE[64] = {    
+    -50    ,    -10    ,    0    ,    0    ,    0    ,    0    ,    -10    ,    -50    ,
+    -10,    0    ,    10    ,    10    ,    10    ,    10    ,    0    ,    -10    ,
+    0    ,    10    ,    20    ,    20    ,    20    ,    20    ,    10    ,    0    ,
+    0    ,    10    ,    20    ,    40    ,    40    ,    20    ,    10    ,    0    ,
+    0    ,    10    ,    20    ,    40    ,    40    ,    20    ,    10    ,    0    ,
+    0    ,    10    ,    20    ,    20    ,    20    ,    20    ,    10    ,    0    ,
+    -10,    0    ,    10    ,    10    ,    10    ,    10    ,    0    ,    -10    ,
+    -50    ,    -10    ,    0    ,    0    ,    0    ,    0    ,    -10    ,    -50    
 };
 
-const int KingO[64] = {	
-	0	,	5	,	5	,	-10	,	-10	,	0	,	10	,	5	,
-	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,
-	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,
-	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
-	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
-	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
-	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
-	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70		
+const int KingO[64] = {    
+    0    ,    5    ,    5    ,    -10    ,    -10    ,    0    ,    10    ,    5    ,
+    -30    ,    -30    ,    -30    ,    -30    ,    -30    ,    -30    ,    -30    ,    -30    ,
+    -50    ,    -50    ,    -50    ,    -50    ,    -50    ,    -50    ,    -50    ,    -50    ,
+    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,
+    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,
+    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,
+    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,
+    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70    ,    -70        
 };
 
 int MaterialDraw(const BOARD *pos) {
 
-	ASSERT(CheckBoard(pos));
-	
+    ASSERT(CheckBoard(pos));
+    
     if (!pos->pieceNum[wR] && !pos->pieceNum[bR] && !pos->pieceNum[wQ] && !pos->pieceNum[bQ]) {
-	  if (!pos->pieceNum[bB] && !pos->pieceNum[wB]) {
-	      if (pos->pieceNum[wN] < 3 && pos->pieceNum[bN] < 3) {  return TRUE; }
-	  } else if (!pos->pieceNum[wN] && !pos->pieceNum[bN]) {
-	     if (abs(pos->pieceNum[wB] - pos->pieceNum[bB]) < 2) { return TRUE; }
-	  } else if ((pos->pieceNum[wN] < 3 && !pos->pieceNum[wB]) || (pos->pieceNum[wB] == 1 && !pos->pieceNum[wN])) {
-	    if ((pos->pieceNum[bN] < 3 && !pos->pieceNum[bB]) || (pos->pieceNum[bB] == 1 && !pos->pieceNum[bN]))  { return TRUE; }
-	  }
-	} else if (!pos->pieceNum[wQ] && !pos->pieceNum[bQ]) {
+      if (!pos->pieceNum[bB] && !pos->pieceNum[wB]) {
+          if (pos->pieceNum[wN] < 3 && pos->pieceNum[bN] < 3) {  return TRUE; }
+      } else if (!pos->pieceNum[wN] && !pos->pieceNum[bN]) {
+         if (abs(pos->pieceNum[wB] - pos->pieceNum[bB]) < 2) { return TRUE; }
+      } else if ((pos->pieceNum[wN] < 3 && !pos->pieceNum[wB]) || (pos->pieceNum[wB] == 1 && !pos->pieceNum[wN])) {
+        if ((pos->pieceNum[bN] < 3 && !pos->pieceNum[bB]) || (pos->pieceNum[bB] == 1 && !pos->pieceNum[bN]))  { return TRUE; }
+      }
+    } else if (!pos->pieceNum[wQ] && !pos->pieceNum[bQ]) {
         if (pos->pieceNum[wR] == 1 && pos->pieceNum[bR] == 1) {
-            if ((pos->pieceNum[wN] + pos->pieceNum[wB]) < 2 && (pos->pieceNum[bN] + pos->pieceNum[bB]) < 2)	{ return TRUE; }
+            if ((pos->pieceNum[wN] + pos->pieceNum[wB]) < 2 && (pos->pieceNum[bN] + pos->pieceNum[bB]) < 2)    { return TRUE; }
         } else if (pos->pieceNum[wR] == 1 && !pos->pieceNum[bR]) {
             if ((pos->pieceNum[wN] + pos->pieceNum[wB] == 0) && (((pos->pieceNum[bN] + pos->pieceNum[bB]) == 1) || ((pos->pieceNum[bN] + pos->pieceNum[bB]) == 2))) { return TRUE; }
         } else if (pos->pieceNum[bR] == 1 && !pos->pieceNum[wR]) {
@@ -209,26 +209,26 @@ int EvalPosition(const BOARD *pos) {
     } 
 
     pce = wK;
-	sq = pos->pieceList[pce][0];
-	ASSERT(SquareOnBoard(sq));
-	ASSERT(SQ64(sq)>=0 && SQ64(sq)<=63);
-	
-	if( (pos->material[BLACK] <= ENDGAME_MAT) ) {
-		score += KingE[SQ64(sq)];
-	} else {
-		score += KingO[SQ64(sq)];
-	}
-	
-	pce = bK;
-	sq = pos->pieceList[pce][0];
-	ASSERT(SquareOnBoard(sq));
-	ASSERT(MIRROR64(SQ64(sq))>=0 && MIRROR64(SQ64(sq))<=63);
-	
-	if( (pos->material[WHITE] <= ENDGAME_MAT) ) {
-		score -= KingE[MIRROR64(SQ64(sq))];
-	} else {
-		score -= KingO[MIRROR64(SQ64(sq))];
-	}
+    sq = pos->pieceList[pce][0];
+    ASSERT(SquareOnBoard(sq));
+    ASSERT(SQ64(sq)>=0 && SQ64(sq)<=63);
+    
+    if( (pos->material[BLACK] <= ENDGAME_MAT) ) {
+        score += KingE[SQ64(sq)];
+    } else {
+        score += KingO[SQ64(sq)];
+    }
+    
+    pce = bK;
+    sq = pos->pieceList[pce][0];
+    ASSERT(SquareOnBoard(sq));
+    ASSERT(MIRROR64(SQ64(sq))>=0 && MIRROR64(SQ64(sq))<=63);
+    
+    if( (pos->material[WHITE] <= ENDGAME_MAT) ) {
+        score -= KingE[MIRROR64(SQ64(sq))];
+    } else {
+        score -= KingO[MIRROR64(SQ64(sq))];
+    }
 
     if(pos->pieceNum[wB] >= 2) score += BishopPair;
     if(pos->pieceNum[bB] >= 2) score -= BishopPair;

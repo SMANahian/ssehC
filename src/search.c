@@ -116,35 +116,35 @@ static int Quiescence(int alpha, int beta, BOARD *pos, SEARCHINFO *info) {
 
     for(MoveNum = 0; MoveNum < list->count; ++MoveNum) {
 
-		PickNextMove(MoveNum, list);
+        PickNextMove(MoveNum, list);
 
         if ( !MakeMove(pos,list->moves[MoveNum].move))  {
             continue;
         }
 
-		Legal++;
-		Score = -Quiescence( -beta, -alpha, pos, info);
+        Legal++;
+        Score = -Quiescence( -beta, -alpha, pos, info);
         TakeMove(pos);
 
-		if(info->stopped == TRUE) {
-			return 0;
-		}
+        if(info->stopped == TRUE) {
+            return 0;
+        }
 
-		if(Score > alpha) {
-			if(Score >= beta) {
-				if(Legal==1) {
-					info->fhf++;
-				}
-				info->fh++;
-				return beta;
-			}
-			alpha = Score;
-		}
+        if(Score > alpha) {
+            if(Score >= beta) {
+                if(Legal==1) {
+                    info->fhf++;
+                }
+                info->fh++;
+                return beta;
+            }
+            alpha = Score;
+        }
     }
 
-	ASSERT(alpha >= OldAlpha);
+    ASSERT(alpha >= OldAlpha);
 
-	return alpha;
+    return alpha;
 }
 
 static int AlphaBeta(int alpha, int beta, int depth, BOARD *pos, SEARCHINFO *info, int DoNull) {
@@ -296,13 +296,13 @@ void SearchPosition(BOARD *pos, SEARCHINFO *info ) {
 
     ClearForSearch(pos, info);
 
-	if(EngineOptions->UseBook == TRUE) {
-		bestMove = GetBookMove(pos);
-	}
+    if(EngineOptions->UseBook == TRUE) {
+        bestMove = GetBookMove(pos);
+    }
 
     if(bestMove == NOMOVE) {
         for( currentDepth = 1; currentDepth <= info->depth; ++currentDepth ) {
-                                // alpha	 beta
+                                // alpha     beta
             rootDepth = currentDepth;
             bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth, pos, info, TRUE);
 
@@ -334,7 +334,7 @@ void SearchPosition(BOARD *pos, SEARCHINFO *info ) {
                 printf("\n");
             }
         }
-	}
+    }
 
     if(info->GAME_MODE == UCIMODE) {
         printf("bestmove %s\n", PrintMove(bestMove));

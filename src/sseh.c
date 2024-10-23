@@ -28,10 +28,10 @@ int main(int argc, char *argv[]) {
     int ArgNum = 0;
     
     for(ArgNum = 0; ArgNum < argc; ++ArgNum) {
-    	if(strncmp(argv[ArgNum], "NoBook", 6) == 0) {
-    		EngineOptions->UseBook = FALSE;
-    		printf("Book Off\n");
-    	}
+        if(strncmp(argv[ArgNum], "NoBook", 6) == 0) {
+            EngineOptions->UseBook = FALSE;
+            printf("Book Off\n");
+        }
     }
 
     if(argc > 1) {

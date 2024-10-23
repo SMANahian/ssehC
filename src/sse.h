@@ -159,13 +159,13 @@ typedef struct {
     float fh;
     float fhf;
 
-	int GAME_MODE;
-	int POST_THINKING;
+    int GAME_MODE;
+    int POST_THINKING;
 
 } SEARCHINFO;
 
 typedef struct {
-	int UseBook;
+    int UseBook;
 } OPTIONS;
 
 // MOVE

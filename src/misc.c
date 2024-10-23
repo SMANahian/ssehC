@@ -53,7 +53,7 @@ int InputWaiting()
     } else {
       GetNumberOfConsoleInputEvents(inh, &dw);
       return dw <= 1 ? 0 : dw;
-	}
+    }
 #endif
 }
 
@@ -62,18 +62,18 @@ void ReadInput(SEARCHINFO *info) {
   char            input[256] = "", *endc;
 
     if (InputWaiting()) {
-		info->stopped = TRUE;
-		do {
-		  bytes=read(fileno(stdin),input,256);
-		} while (bytes<0);
-		endc = strchr(input,'\n');
-		if (endc) *endc=0;
+        info->stopped = TRUE;
+        do {
+          bytes=read(fileno(stdin),input,256);
+        } while (bytes<0);
+        endc = strchr(input,'\n');
+        if (endc) *endc=0;
 
-		if (strlen(input) > 0) {
-			if (!strncmp(input, "quit", 4))    {
-			  info->quit = TRUE;
-			}
-		}
-		return;
+        if (strlen(input) > 0) {
+            if (!strncmp(input, "quit", 4))    {
+              info->quit = TRUE;
+            }
+        }
+        return;
     }
 }

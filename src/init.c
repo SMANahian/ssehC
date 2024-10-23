@@ -180,5 +180,5 @@ void Init() {
     InitFileRank();
     InitEvalMasks();
     InitMvvLva();
-	InitPolyBook();
+    InitPolyBook();
 }
