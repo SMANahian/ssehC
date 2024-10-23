@@ -17,4 +17,4 @@ all:
 	src/evaluate.c \
 	src/uci.c \
 	src/xboard.c \
-	-o ssehc.out
+	-o ssehc

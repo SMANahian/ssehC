@@ -21,6 +21,76 @@ U64 CastleKeys[16];
 int File[BOARD_SIZE];
 int Rank[BOARD_SIZE];
 
+U64 FileBBMask[8];
+U64 RankBBMask[8];
+
+U64 BlackPassedMask[64];
+U64 WhitePassedMask[64];
+U64 IsolatedMask[64];
+
+void InitEvalMasks() {
+    int sq, tsq, file, rank;
+
+    for(rank = RANK_1; rank <= RANK_8; ++rank) {
+        for(file = FILE_A; file <= FILE_H; ++file) {
+            sq = FR2SQ(file, rank);
+            FileBBMask[file] |= (1ULL << sq);
+            RankBBMask[rank] |= (1ULL << sq);
+        }
+    }
+
+    for(sq = 0; sq < 64; ++sq) {
+        tsq = SQ120(sq);
+        IsolatedMask[sq] = 0ULL;
+        WhitePassedMask[sq] = 0ULL;
+        BlackPassedMask[sq] = 0ULL;
+    }
+
+    for(sq = 0; sq < 64; ++sq) {
+        tsq = sq + 8;
+        while(tsq < 64) {
+            WhitePassedMask[sq] |= (1ULL << tsq);
+            tsq += 8;
+        }
+
+        tsq = sq - 8;
+        while(tsq >= 0) {
+            BlackPassedMask[sq] |= (1ULL << tsq);
+            tsq -= 8;
+        }
+
+        if(File[sq] > FILE_A) {
+            IsolatedMask[sq] |= FileBBMask[File[sq] - 1];
+            tsq = sq + 7;
+            while(tsq < 64) {
+                WhitePassedMask[sq] |= (1ULL << tsq);
+                tsq += 8;
+            }
+
+            tsq = sq - 9;
+            while(tsq >= 0) {
+                BlackPassedMask[sq] |= (1ULL << tsq);
+                tsq -= 8;
+            }
+        }
+
+        if(File[sq] < FILE_H) {
+            IsolatedMask[sq] |= FileBBMask[File[sq] + 1];
+            tsq = sq + 9;
+            while(tsq < 64) {
+                WhitePassedMask[sq] |= (1ULL << tsq);
+                tsq += 8;
+            }
+
+            tsq = sq - 7;
+            while(tsq >= 0) {
+                BlackPassedMask[sq] |= (1ULL << tsq);
+                tsq -= 8;
+            }
+        }
+    }
+}
+
 void InitFileRank() {
     int index = 0;
     int file = FILE_A;
@@ -106,5 +176,6 @@ void Init() {
     InitBitMasks();
     InitHashKeys();
     InitFileRank();
+    InitEvalMasks();
     InitMvvLva();
 }

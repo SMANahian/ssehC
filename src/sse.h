@@ -182,6 +182,8 @@ typedef struct {
 #define IsN(p) (PieceKnight[(p)])
 #define IsK(p) (PieceKing[(p)])
 
+#define MIRROR64(sq) (Mirror64[(sq)])
+
 
 // Globals
 extern int Sq120ToSq64[BOARD_SIZE];
@@ -213,6 +215,13 @@ extern int PiecePawn[13];
 extern int PieceSlides[13];
 
 extern int Mirror64[64];
+
+extern U64 FileBBMask[8];
+extern U64 RankBBMask[8];
+
+extern U64 BlackPassedMask[64];
+extern U64 WhitePassedMask[64];
+extern U64 IsolatedMask[64];
 
 
 // Functions
