@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Compile the engine
+make
 gcc src/sseh.c \
     src/init.c \
     src/bitboard.c \
