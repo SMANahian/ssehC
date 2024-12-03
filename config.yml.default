@@ -108,7 +108,7 @@ engine:                            # Engine settings.
 #     scorpio: "Scorpio Path"
 #     syzygy: "Syzygy Path"
     go_commands:                   # Additional options to pass to the XBoard go command.
-      depth: 9                     # Search depth ply only.
+      depth: 12                    # Search depth ply only.
 #     Do note that the go commands 'movetime' and 'nodes' are invalid and may cause bad time management for XBoard engines.
 
   silence_stderr: false            # Some engines (yes you, Leela) are very noisy.
