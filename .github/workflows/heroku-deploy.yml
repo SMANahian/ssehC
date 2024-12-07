@@ -33,15 +33,20 @@ jobs:
     # Step 5: Set Heroku Buildpack
     - name: Set Heroku buildpack
       run: |
-        heroku buildpacks:set https://github.com/heroku/heroku-buildpack-c
+        heroku buildpacks:set heroku/python
 
-    # Step 6: Add compiled binary to the repository
+    # Step 6: Ensure Python dependencies are available by linking requirements.txt
+    - name: Link requirements.txt from lichess-bot directory
+      run: |
+        cp lichess-bot/requirements.txt .
+
+    # Step 7: Add compiled binary to the repository
     - name: Include binary in deployment
       run: |
         git add -f ssehc
         git commit -m "Include compiled binary for Heroku deployment"
 
-    # Step 7: Deploy to Heroku
+    # Step 8: Deploy to Heroku
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.13.15
       with:
