@@ -24,13 +24,19 @@ jobs:
     - name: Build C engine
       run: make
 
-    # Step 4: Add compiled binary to the repository
+    # Step 4: Configure Git user for commit
+    - name: Configure Git user
+      run: |
+        git config --global user.email "smanahian123@gmail.com"
+        git config --global user.name "GitHub Actions"
+
+    # Step 5: Add compiled binary to the repository
     - name: Include binary in deployment
       run: |
         git add -f ssehc
         git commit -m "Include compiled binary for Heroku deployment"
 
-    # Step 5: Deploy to Heroku with compiled binary
+    # Step 6: Deploy to Heroku
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.13.15
       with:
