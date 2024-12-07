@@ -13,6 +13,8 @@ jobs:
     # Step 1: Checkout the code
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        submodules: true  # Ensure submodules are checked out
 
     # Step 2: Install build tools (on GitHub Actions runner)
     - name: Install build tools
