@@ -30,13 +30,18 @@ jobs:
         git config --global user.email "smanahian123@gmail.com"
         git config --global user.name "GitHub Actions"
 
-    # Step 5: Add compiled binary to the repository
+    # Step 5: Set Heroku Buildpack
+    - name: Set Heroku buildpack
+      run: |
+        heroku buildpacks:set https://github.com/heroku/heroku-buildpack-c
+
+    # Step 6: Add compiled binary to the repository
     - name: Include binary in deployment
       run: |
         git add -f ssehc
         git commit -m "Include compiled binary for Heroku deployment"
 
-    # Step 6: Deploy to Heroku
+    # Step 7: Deploy to Heroku
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.13.15
       with:
