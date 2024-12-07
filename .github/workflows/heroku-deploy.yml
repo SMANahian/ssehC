@@ -57,8 +57,19 @@ jobs:
     - name: Create a Procfile
       run: |
         echo "worker: ./run_lichess_bot.sh" > Procfile
+    
+    # Add the Procfile
+    - name: Add Procfile
+      run: |
+        git add -f Procfile
+        git commit -m "Include Procfile for Heroku deployment"
 
     # Deploy to Heroku
     - name: Deploy to Heroku
-      run: |
-        git push heroku main --force
+      uses: akhileshns/heroku-deploy@v3.13.15
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+        heroku_email: smanahian123@gmail.com
+        process_types: |
+          worker: ./run_lichess_bot.sh
