@@ -33,7 +33,7 @@ jobs:
     # Step 5: Set Heroku Buildpack
     - name: Set Heroku buildpack
       run: |
-        heroku buildpacks:set heroku/python
+        heroku buildpacks:set heroku/python --app ${{ secrets.HEROKU_APP_NAME }}
 
     # Step 6: Ensure Python dependencies are available by linking requirements.txt
     - name: Link requirements.txt from lichess-bot directory
@@ -51,7 +51,7 @@ jobs:
       uses: akhileshns/heroku-deploy@v3.13.15
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: ssehc
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
         heroku_email: smanahian123@gmail.com
         process_types: |
           worker: ./run_lichess_bot.sh
