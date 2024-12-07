@@ -8,6 +8,7 @@ make
 ```
 ## Lichess Bot Setup
 ```
+make
 export LICHESS_TOKEN=your_lichess_bot_token
 ./run_lichess_bot.sh
 ```
