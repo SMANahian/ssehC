@@ -37,23 +37,24 @@ jobs:
       run: |
         heroku buildpacks:set heroku/python --app ${{ secrets.HEROKU_APP_NAME }}
 
-    # Step 6: Ensure Python dependencies are available by linking requirements.txt
+    # Step 6: Link Python dependencies
     - name: Link requirements.txt from lichess-bot directory
       run: |
         cp lichess-bot/requirements.txt .
 
-    # Step 7: Add compiled binary to the repository
-    - name: Include binary in deployment
+    # Step 7: Add the compiled binary to the repository
+    - name: Add compiled binary
       run: |
         git add -f ssehc
         git commit -m "Include compiled binary for Heroku deployment"
 
-    # Step 8: Deploy to Heroku
+    # Step 8: Create a Procfile dynamically
+    - name: Create a Procfile
+      run: |
+        echo "worker: ./run_lichess_bot.sh" > Procfile
+
+    # Step 9: Deploy to Heroku
     - name: Deploy to Heroku
-      uses: akhileshns/heroku-deploy@v3.13.15
-      with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-        heroku_email: smanahian123@gmail.com
-        process_types: |
-          worker: ./run_lichess_bot.sh
+      run: |
+        git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+        git push heroku master --force
