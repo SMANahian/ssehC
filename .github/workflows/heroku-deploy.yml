@@ -1,0 +1,41 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Install build tools (on GitHub Actions runner)
+    - name: Install build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential gcc make
+
+    # Step 3: Compile the C engine
+    - name: Build C engine
+      run: make
+
+    # Step 4: Add compiled binary to the repository
+    - name: Include binary in deployment
+      run: |
+        git add -f ssehc
+        git commit -m "Include compiled binary for Heroku deployment"
+
+    # Step 5: Deploy to Heroku with compiled binary
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v4.1.3
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: your-heroku-app-name
+        heroku_email: your-email@example.com
+        process_types: |
+          worker: ./run_lichess_bot.sh
