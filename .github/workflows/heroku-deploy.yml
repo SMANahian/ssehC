@@ -26,10 +26,10 @@ jobs:
     - name: Build C engine
       run: make
 
-    # Configure Git user for commit
-    - name: Configure Git user
-      run: |
-        echo "machine git.heroku.com login _ token ${HEROKU_API_KEY}" > ~/.netrc
+    # # Configure Git user for commit
+    # - name: Configure Git user
+    #   run: |
+    #     echo "machine git.heroku.com login _ token ${HEROKU_API_KEY}" > ~/.netrc
 
     # Set Heroku Buildpack
     - name: Set Heroku buildpack
@@ -41,11 +41,11 @@ jobs:
       run: |
         cp lichess-bot/requirements.txt .
 
-    # Configure Git user identity for commits
-    - name: Configure Git user
-      run: |
-        git config --global user.email "smanahian123@gmail.com"
-        git config --global user.name "GitHub Actions"
+    # # Configure Git user identity for commits
+    # - name: Configure Git user
+    #   run: |
+    #     git config --global user.email "smanahian123@gmail.com"
+    #     git config --global user.name "GitHub Actions"
 
     # Add the compiled binary to the repository
     - name: Add compiled binary
