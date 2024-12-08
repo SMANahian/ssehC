@@ -41,11 +41,11 @@ jobs:
       run: |
         cp lichess-bot/requirements.txt .
 
-    # # Configure Git user identity for commits
-    # - name: Configure Git user
-    #   run: |
-    #     git config --global user.email "smanahian123@gmail.com"
-    #     git config --global user.name "GitHub Actions"
+    # Configure Git user identity for commits
+    - name: Configure Git user
+      run: |
+        git config --global user.email "smanahian123@gmail.com"
+        git config --global user.name "GitHub Actions"
 
     # Add the compiled binary to the repository
     - name: Add compiled binary
