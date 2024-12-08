@@ -127,7 +127,7 @@ correspondence:
   ponder: false                    # Ponder in correspondence games the bot is connected to.
 
 challenge:                         # Incoming challenges.
-  concurrency: 3                   # Number of games to play simultaneously.
+  concurrency: 2                   # Number of games to play simultaneously.
   sort_by: "first"                 # Possible values: "best" and "first".
   preference: "human"              # Possible values: "none", "human", "bot".
   accept_bot: true                 # Accepts challenges coming from other bots.
