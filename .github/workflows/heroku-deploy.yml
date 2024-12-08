@@ -27,10 +27,10 @@ jobs:
     - name: Build C engine
       run: make
 
-    # Set Heroku Buildpack
-    - name: Set Heroku buildpack
-      run: |
-        heroku buildpacks:set heroku/python --app ${{ secrets.HEROKU_APP_NAME }}
+    # # Set Heroku Buildpack
+    # - name: Set Heroku buildpack
+    #   run: |
+    #     heroku buildpacks:set heroku/python --app ${{ secrets.HEROKU_APP_NAME }}
 
     # Link Python dependencies
     - name: Link requirements.txt from lichess-bot directory
@@ -56,5 +56,6 @@ jobs:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
         heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
         heroku_email: smanahian123@gmail.com
+        buildpack: heroku/python
         process_types: |
           worker: ./run_lichess_bot.sh
