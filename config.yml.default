@@ -108,7 +108,7 @@ engine:                            # Engine settings.
 #     scorpio: "Scorpio Path"
 #     syzygy: "Syzygy Path"
     go_commands:                   # Additional options to pass to the XBoard go command.
-      depth: 9                     # Search depth ply only.
+      depth: 16                    # Search depth ply only.
 #     Do note that the go commands 'movetime' and 'nodes' are invalid and may cause bad time management for XBoard engines.
 
   silence_stderr: false            # Some engines (yes you, Leela) are very noisy.
@@ -127,7 +127,7 @@ correspondence:
   ponder: false                    # Ponder in correspondence games the bot is connected to.
 
 challenge:                         # Incoming challenges.
-  concurrency: 2                   # Number of games to play simultaneously.
+  concurrency: 3                   # Number of games to play simultaneously.
   sort_by: "first"                 # Possible values: "best" and "first".
   preference: "human"              # Possible values: "none", "human", "bot".
   accept_bot: true                 # Accepts challenges coming from other bots.
@@ -135,7 +135,7 @@ challenge:                         # Incoming challenges.
   max_increment: 20                # Maximum amount of increment to accept a challenge in seconds. The max is 180. Set to 0 for no increment.
   min_increment: 0                 # Minimum amount of increment to accept a challenge in seconds.
   max_base: 1800                   # Maximum amount of base time to accept a challenge in seconds. The max is 10800 (3 hours).
-  min_base: 120                    # Minimum amount of base time to accept a challenge in seconds.
+  min_base: 60                     # Minimum amount of base time to accept a challenge in seconds.
   max_days: 14                     # Maximum number of days per move to accept a challenge for a correspondence game.
                                    # Unlimited games can be accepted by removing this field or specifying .inf
   min_days: 1                      # Minimum number of days per move to accept a challenge for a correspondence game.
@@ -154,7 +154,7 @@ challenge:                         # Incoming challenges.
     - bullet
     - blitz
     - rapid
-#   - classical
+    - classical
 #   - correspondence
   modes:                           # Game modes to accept.
     - casual                       # Unrated games.
@@ -189,12 +189,14 @@ matchmaking:
   allow_matchmaking: true          # Set it to 'true' to challenge other bots.
   allow_during_games: true         # Set it to 'true' to create challenges during long games.
   challenge_variant: "random"      # If set to 'random', the bot will choose one variant from the variants enabled in 'challenge.variants'.
-  challenge_timeout: 360           # Create a challenge after being idle for 'challenge_timeout' minutes. The minimum is 1 minute.
+  challenge_timeout: 1             # Create a challenge after being idle for 'challenge_timeout' minutes. The minimum is 1 minute.
   challenge_initial_time:          # Initial time in seconds of the challenge (to be chosen at random).
+    - 60
     - 120
     - 300
     - 600
   challenge_increment:             # Increment in seconds of the challenge (to be chosen at random).
+    - 0
     - 1
     - 2
     - 5
