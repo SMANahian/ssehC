@@ -14,7 +14,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        branch: master
         submodules: true
 
     # Install required dependencies
@@ -23,39 +22,22 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential gcc make
 
-    # Compile the C engine
-    - name: Build C engine
+    # Compile the Chess engine
+    - name: Build Chess engine
       run: make
 
-    # # Set Heroku Buildpack
-    # - name: Set Heroku buildpack
-    #   run: |
-    #     heroku buildpacks:set heroku/python --app ${{ secrets.HEROKU_APP_NAME }}
-
-    # Link Python dependencies
-    - name: Link requirements.txt from lichess-bot directory
+    # Prepare deployment files
+    - name: Prepare requirements.txt and Procfile
       run: |
-        cp lichess-bot/requirements.txt .
-
-    # Configure Git user identity for commits
-    - name: Configure Git user
-      run: |
-        git config --global user.email "smanahian123@gmail.com"
-        git config --global user.name "GitHub Actions"
-
-    # Add the compiled binary to the repository
-    - name: Add compiled binary
-      run: |
-        git add -f ssehc
-        git commit -m "Include compiled binary for Heroku deployment"
+        ln -s lichess-bot/requirements.txt requirements.txt
+        echo "worker: ./run_lichess_bot.sh" > Procfile
 
     # Deploy to Heroku
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.13.15
       with:
+        branch: master
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
         heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
         heroku_email: smanahian123@gmail.com
         buildpack: heroku/python
-        process_types: |
-          worker: ./run_lichess_bot.sh
