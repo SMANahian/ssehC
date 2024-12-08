@@ -27,10 +27,11 @@ jobs:
       run: make
 
     # Prepare deployment files
-    - name: Prepare requirements.txt and Procfile
+    - name: Prepare requirements.txt, Procfile and the engine
       run: |
         ln -s lichess-bot/requirements.txt requirements.txt
         echo "worker: ./run_lichess_bot.sh" > Procfile
+        git add -f ssehc
 
     # Deploy to Heroku
     - name: Deploy to Heroku
