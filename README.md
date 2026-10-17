@@ -1,5 +1,5 @@
 # ssehC
-Creating my own chess engine as a programming challenge. 
+A chess engine in C that I built by following BlueFeverSoft's VICE tutorial, to learn how engines work.
 
 ## Usage
 ```
